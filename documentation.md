@@ -39,7 +39,7 @@ To detect taps, I first tried using different bounding box size thresholds aroun
 
 ### Usage
 
-To learn about setting up the hardware, please refer to the [Setup](#design-decisions) section.
+To learn about setting up the hardware, please refer to the [Design Decisions](#design-decisions) section.
 
 Run the program with the following commands:
 
