@@ -28,7 +28,7 @@ Run the program with the following commands:
 
 ```
 py touch_input.py
-py fitts_law.py
+py fitts_law.py [num_targets] [width] [distance] [id]   # Replace with actual values
 ```
 
 Three windows will open: One pyglet window and two camera preview windows. Unless you are interested in thresholding and finger detection, you can ignore the camera windows.
