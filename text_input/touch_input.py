@@ -50,7 +50,7 @@ def get_background(pipeline, calibration_time):
         now = time.time()
     # Average the frames to create a clean background image
     background = np.mean(bg_frames, axis=0).astype(np.uint8)
-    print("Calibration done")
+    print("Calibration complete")
     return background
 
 
