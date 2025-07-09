@@ -36,8 +36,6 @@ To avoid false positives from palms or other large objects, any contact detected
 
 To detect taps, I first tried using different bounding box size thresholds around the fingerpad, which was not reliable. I ended up using a time-based approach: when a finger touches the surface, a timer starts, and if the finger is lifted within a certain time threshold, the movement is registered as a tap.
 
-- calibration
-
 
 ## How To Use
 
@@ -58,7 +56,8 @@ To control the green cursor in the pyglet window, drag the pad of your finger ac
 
 To close the preview windows, press the **Q** key. To exit the pyglet window, click the **X** button.
 
-### Finger Posture
+### Touch Positioning
+Ensure a sufficient area of your fingerpad is touching with the surface. 
 bad    |  good
 -------------------------|-------------------------
 ![](./img/bad.jpg)  |  ![](./img/good.jpg)
@@ -66,15 +65,17 @@ bad    |  good
 
 # 2. Touch-based Text Input
 
-## Decisions decisions
+## Approach
 
-I decided to use the EMNIST dataset because it's easily accessible and offers a lot of diverse data. I initially used the *Balanced* set which contains all digits 0-9 as well as all uppercase and some lowercase letters. However, the *Balanced* set merges certain lowercase letters with their uppercase counterparts due to close visual resemblance (e.g., c and C). This results in inconsistent representation, with some characters appearing in both cases and others appearing only in uppercase. Since I wanted to keep it consistent, and the recognizer had trouble distinguishing between certain digits and letters (e.g., mistaking O for 0 or S for 5), I decided to use the *Letters* set instead.
+I briefly considered using the $1 recognizer for this task. However, given that handwriting is highly individual and the alphabet contains over 26 characters (some of which are easily confused), I ended up rejecting the idea.
 
-At first, I omitted the tap functionality I implemented in [Task 1](#1-build-a-camera-based-touch-sensor), thinking I wouldn't need it. However, it turned out that the tap functionality was perfect for simulating the **SPACE** bar.
+I decided to use the EMNIST dataset [[1, 2](#references)] because it's easily accessible and offers a lot of diverse data. I initially used the *Balanced* set which contains all digits 0-9 as well as all uppercase and some lowercase letters. However, the *Balanced* set merges certain lowercase letters with their uppercase counterparts due to close visual resemblance (e.g., c and C). This results in inconsistent representation, with some characters appearing in both cases and others appearing only in uppercase. Since I wanted to keep it consistent, and the recognizer had trouble distinguishing between certain digits and letters (e.g., mistaking O for 0 or S for 5), I decided to use the *Letters* set instead.
 
-When a movement (as defined in part 1 of the assignment) is detected, white strokes are drawn on the camera preview window to provide visual feedback. Once the user lifts their finger off the surface, a 1-second timer starts to allow for multi-stroke characters (such H, A or E) where the user may need to touch the surface more than once. If no further input is detected during this interval, the input is placed into a square to preserve aspect ratio, resized to match the input size of the model, and normalized and reshaped. The input is then predicted and the result simulated as a keystroke.
+I didn't have too much trouble training the CNN itself (I experimented with hyperparameter values and layer configurations before settling for a setup that worked well, see *handwriting_recognition.ipynb*.). The more challenging part was figuring out how to preprocess the EMNIST data to ensure that character orientation was correct, which took some trial and error.
 
-When a tap is detected, the canvas is cleared right away to avoid accidental prediction, and a **SPACE** keystroke is simulated.
+When a movement (as defined in part 1 of the assignment) is detected, white strokes are drawn on the camera preview window to provide visual feedback. Once the user lifts their finger off the surface, a 1-second timer starts to allow for multi-stroke characters (such H, A or E) where the user may need to touch the surface more than once. If no further input is detected during this interval, the input is placed into a square to preserve aspect ratio, resized to match the input size of the model, and normalized and reshaped. The input is then predicted and the result simulated as a keystroke. Characters can be written in upper- or lowercase, but they are mapped to uppercase in accordance the EMNIST *Letters* dataset.
+
+At first, I omitted the tap functionality I implemented in [Task 1](#1-build-a-camera-based-touch-sensor), thinking I wouldn't need it. However, it turned out that the tap functionality was perfect for simulating the **SPACE** bar. When a tap is detected, the canvas is cleared right away to avoid accidental prediction, and a **SPACE** keystroke is simulated.
 
 ## How To Use
 
@@ -92,3 +93,8 @@ Calibration will start upon running the program. Make sure to keep the surface c
 A camera preview window will open. Drag your fingerpad over the surface. Your strokes will appear in white in the preview window. After you finish writing a character, pause for one second without touching the surface. The character will then be recognized and typed automatically. After that, you can proceed with the next character. Briefly tapping your finger on the surface once will simulate a **SPACE** keystroke.
 
 To end the program, press the **Q** key.
+
+## References
+[1] Cohen, G., Afshar, S., Tapson, J., and van Schaik, A. (2017). *EMNIST: An Extension of MNIST to Handwritten Letters*. [arXiv:1702.05373v1](https://arxiv.org/abs/1702.05373v1)
+
+[2] *torchvision.datasets.EMNIST (PyTorch Docs)* [https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EMNIST.html#torchvision.datasets.EMNIST](https://docs.pytorch.org/vision/main/generated/torchvision.datasets.EMNIST.html#torchvision.datasets.EMNIST)
