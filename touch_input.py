@@ -54,7 +54,7 @@ try:
             continue
 
         color_image = np.asanyarray(color_frame.get_data())
-        color_image = cv2.flip(color_image, -1)
+        color_image = cv2.flip(color_image, 1)
         height, width = color_image.shape[:2]
         gray = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
 
@@ -79,7 +79,7 @@ try:
             finger_detected = True
             x, y, w, h = cv2.boundingRect(active_contour)
             cv2.rectangle(color_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            message = json.dumps({"movement": {"x": x, "y": y}})
+            message = json.dumps({"movement": {"x": x, "y": height - y}})
             sock.sendto(message.encode(), (IP, PORT))
 
         # Once the surface is being touched, set touch_active = True and start tracking the time
