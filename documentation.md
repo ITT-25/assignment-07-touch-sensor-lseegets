@@ -48,7 +48,7 @@ py touch_input.py
 py fitts_law.py [num_targets] [width] [distance] [id]   # Replace with actual values
 ```
 
-Calibration will start upon running the program. Make sure to keep the surface clear during this process.
+Calibration will start upon running the program. Make sure to keep the surface clear during this process. A message indicating completion of the calibration process will be displayed in the terminal.
 
 Three windows will open: One pyglet window and two camera preview windows. The two camera windows display the threshold image and the color image with a bounding box drawn around a detected fingerpad.
 
@@ -73,7 +73,7 @@ I decided to use the EMNIST dataset [[1, 2](#references)] because it's easily ac
 
 I didn't have too much trouble training the CNN itself (I experimented with hyperparameter values and layer configurations before settling for a setup that worked well, see *handwriting_recognition.ipynb*.). The more challenging part was figuring out how to preprocess the EMNIST data to ensure that character orientation was correct, which took some trial and error.
 
-When a movement (as defined in part 1 of the assignment) is detected, white strokes are drawn on the camera preview window to provide visual feedback. Once the user lifts their finger off the surface, a 1-second timer starts to allow for multi-stroke characters (such H, A or E) where the user may need to touch the surface more than once. If no further input is detected during this interval, the input is placed into a square to preserve aspect ratio, resized to match the input size of the model, and normalized and reshaped. The input is then predicted and the result simulated as a keystroke. Characters can be written in upper- or lowercase, but they are mapped to uppercase in accordance the EMNIST *Letters* dataset.
+When a movement (as defined in part 1 of the assignment) is detected, white strokes are drawn on the camera preview window to provide visual feedback. Once the user lifts their finger off the surface, a 1-second timer starts to allow for multi-stroke characters (such H, A or E) where the user may need to touch the surface more than once. If no further input is detected during this interval, the input is placed into a square to preserve aspect ratio, resized to match the input size of the model, and normalized and reshaped. The input is then predicted and the result simulated as a keystroke. Characters can be written in upper- or lowercase, but they are mapped to uppercase in accordance with the EMNIST *Letters* dataset.
 
 At first, I omitted the tap functionality I implemented in [Task 1](#1-build-a-camera-based-touch-sensor), thinking I wouldn't need it. However, it turned out that the tap functionality was perfect for simulating the **SPACE** bar. When a tap is detected, the canvas is cleared right away to avoid accidental prediction, and a **SPACE** keystroke is simulated.
 
@@ -88,7 +88,7 @@ cd text_input
 py touch_input.py
 ```
 
-Calibration will start upon running the program. Make sure to keep the surface clear during this process.
+Calibration will start upon running the program. Make sure to keep the surface clear during this process. A message indicating completion of the calibration process will be displayed in the terminal.
 
 A camera preview window will open. Drag your fingerpad over the surface. Your strokes will appear in white in the preview window. After you finish writing a character, pause for one second without touching the surface. The character will then be recognized and typed automatically. After that, you can proceed with the next character. Briefly tapping your finger on the surface once will simulate a **SPACE** keystroke.
 
