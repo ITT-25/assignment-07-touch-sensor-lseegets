@@ -54,7 +54,7 @@ try:
             continue
 
         color_image = np.asanyarray(color_frame.get_data())
-        # color_image = cv2.flip(color_image, 0)
+        color_image = cv2.flip(color_image, -1)
         height, width = color_image.shape[:2]
         gray = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
 
