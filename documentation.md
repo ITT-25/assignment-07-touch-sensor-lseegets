@@ -56,13 +56,6 @@ To control the green cursor in the pyglet window, drag the pad of your finger ac
 
 To close the preview windows, press the **Q** key. To exit the pyglet window, click the **X** button.
 
-### Touch Positioning
-Ensure a sufficient area of your fingerpad is touching with the surface. 
-bad    |  good
--------------------------|-------------------------
-![](./img/bad.jpg)  |  ![](./img/good.jpg)
-
-
 # 2. Touch-based Text Input
 
 ## Approach
