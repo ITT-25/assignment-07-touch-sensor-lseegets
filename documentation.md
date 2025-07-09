@@ -61,7 +61,7 @@ To close the preview windows, press the **Q** key. To exit the pyglet window, cl
 ### Finger Posture
 bad    |  good
 -------------------------|-------------------------
-![]()  |  ![]()
+![](./img/bad.jpg)  |  ![](./img/good.jpg)
 
 
 # 2. Touch-based Text Input

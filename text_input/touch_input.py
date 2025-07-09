@@ -30,6 +30,7 @@ model = load_model("./letter_recognition.keras")
 points = []     # The "drawn" points
 prev_point = None   # The previously "drawn" point
 clear_canvas_time = None    # Timer to keep track of when the canvas should be cleared
+is_tap = True      # Will be set to False if the input turns out not to be a tap
 
 
 # Background calibration
@@ -119,7 +120,7 @@ try:
 
             # If the touch duration is short enough, consider it a tap and simulate a SPACE key press.
             # Clear the canvas right away to avoid accidental prediction
-            if touch_duration < TAP_THRESHOLD:
+            if is_tap and touch_duration < TAP_THRESHOLD:
                 keyboard.press(Key.space)
                 keyboard.release(Key.space)
                 canvas[:] = 0
@@ -130,6 +131,7 @@ try:
 
             # If the touch was not a tap, set clear_canvas_time one second ahead of now
             clear_canvas_time = time.time() + PROCESSING_TIME
+            is_tap = False      # Set to False so taps won't get triggered on accident (for example when writing lowercase "i")
 
         # When that extra second has passed, start the prediction process
         if clear_canvas_time and time.time() >= clear_canvas_time:
@@ -170,6 +172,7 @@ try:
             points.clear()
             prev_point = None
             clear_canvas_time = None
+            is_tap = True
 
         frame = cv2.addWeighted(color_image, 1.0, canvas, 1.0, 0)
         cv2.imshow('frame', frame)
